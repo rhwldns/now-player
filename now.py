@@ -1,32 +1,19 @@
-import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QLabel, QVBoxLayout, QWidget
-import os.path
+from tkinter import *
 
+root = Tk()
+root.title("Now Music Player")
+root.geometry("640x480")
 
-class MyApp(QWidget):
+root.resizable(False, False)
 
-    def __init__(self):
-        super().__init__()
-        self.initUI()
+def change():
+    a = Toplevel(root)
+    a.title('Set Playlist Name')
+    a.geometry('640x480')
+    txt = Text(a)
+    txt.pack()
 
-    def initUI(self):
-        self.setWindowTitle('Now Music Player')
-        self.move(300, 300)
-        self.resize(400, 200)
-        btn1 = QPushButton('플레이리스트 추가', self)
-        btn1.move(20, 20)        
-        btn1.clicked.connect(self.make_playlist)
-        self.show()
-    
-    def make_playlist(self):
-        self.lbl1 = QLabel('이름을 입력하세요')
-        
-        
+bt = Button(root, padx=10, pady=5, text='Make Playlist', command=change)
+bt.pack()
 
-        
-
-
-if __name__ == '__main__':
-   app = QApplication(sys.argv)
-   ex = MyApp()
-   sys.exit(app.exec_())
+root.mainloop()
