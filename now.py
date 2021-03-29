@@ -1,4 +1,6 @@
 from tkinter import *
+import os
+import os.path
 
 ##########################################################
 # 단축 용어 정리
@@ -24,14 +26,19 @@ def make_pl():
     e.pack()
     def btncmd():
         aa = e.get()
-        with open(f'{aa}.txt', 'a', encoding='UTF-8') as f:
+        if os.path.isdir('./playlist/'):
+            pass
+        else:
+            os.mkdir('playlist/')
+        with open(f'playlist/{aa}.txt', 'a', encoding='UTF-8') as f:
             f.write('.')
             f.seek(0)
             f.truncate()
         a.destroy()
         c = Toplevel(root)
-        c.geometry('100x50')
+        c.geometry('250x70')
         tt = Label(c, text = '플레이리스트 제작이 완료되었습니다.')
+        tt.pack()
     
     b = Button(a, padx=10, pady=5, text='완료', command=btncmd)
     b.pack()
