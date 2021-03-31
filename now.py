@@ -129,8 +129,16 @@ def search():
     
         vs = VideosSearch(f'IU {sn}', limit = 1)
         vs = dict(vs.result())
-        url = vs['result']['descriptionSnippet']['channel']['link']
+        url = vs['result'][0]['link']
+        name = vs['result'][0]['title']
         print(str(url))
+        
+        if '시간의 바깥' in name:
+
+            req = requests.get(url)
+            with open("music/시간의-바깥.mp3", "wb+") as file:
+                file.write(req.content)
+
     b = Button(a, padx=10, pady=5, text='완료', command=bncmd)
     b.pack()
 
