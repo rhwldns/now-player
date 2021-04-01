@@ -1,8 +1,12 @@
+from __future__ import unicode_literals
 from tkinter import *
 import os
 import os.path
 import requests
 from youtubesearchpython import VideosSearch
+import youtube_dl
+
+
 
 ##########################################################
 # 단축 용어 정리
@@ -10,6 +14,7 @@ from youtubesearchpython import VideosSearch
 # pl = 플레이리스트 (playlist)
 
 ##########################################################
+
 root = Tk()
 root.title("Now Music Player")
 root.geometry("640x480")
@@ -135,9 +140,27 @@ def search():
         
         if '시간의 바깥' in name:
 
-            req = requests.get(url)
-            with open("music/시간의-바깥.mp3", "wb+") as file:
-                file.write(req.content)
+            ydl_opts = {
+
+                'format': 'bestaudio/best',
+
+                'postprocessors': [{
+
+                    'key': 'FFmpegExtractAudio',
+
+                    'preferredcodec': 'mp3',
+
+                    'preferredquality': '320',
+
+                }],
+
+            }
+
+            with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+
+                ydl.download([url])
+
+
 
     b = Button(a, padx=10, pady=5, text='완료', command=bncmd)
     b.pack()
