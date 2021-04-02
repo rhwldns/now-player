@@ -5,8 +5,11 @@ import os.path
 import requests
 from youtubesearchpython import VideosSearch
 import youtube_dl
+from audioplayer import AudioPlayer
+from pydub import AudioSegment
+from pydub.playback import play
 
-
+#-*- coding:utf-8 -*-
 
 ##########################################################
 # 단축 용어 정리
@@ -84,7 +87,7 @@ def del_pl():
     b = Button(a, padx=10, pady=5, text='완료', command=delpl)
     b.pack()
 
-def play():
+def plays():
     a = Toplevel(root)
     z = ''
     for currentdir, dirs, files in os.walk("playlist/"):
@@ -104,10 +107,17 @@ def play():
 
             # 파일 읽고 그거 다운 후 재생
 
-            with open(f'playlist/{aa}.txt', 'r+', encoding='UTF-8') as f:
+            with open(f'playlist/{aa}.txt', 'r', encoding='utf-8') as f:
                 r = f.readlines()
+
                 for i in r:
-                    pass
+                    i = i.rstrip()
+                    print(i)
+                    os.chdir('C:/Users/cube4/Desktop/coding/Now_Player/music/')
+                    s = AudioSegment.from_mp3(f"{i}.mp3")
+                    
+                    play(s)
+                    os.chdir('C:/Users/cube4/Desktop/coding/Now_Player/')
 
         else:
             c = Toplevel(a)
@@ -199,10 +209,11 @@ def search():
 
 makepl = Button(root, padx=10, pady=5, text='플레이리스트 제작', command=make_pl)
 del_pl = Button(root, padx=10, pady=5, text='플레이리스트 삭제', command=del_pl)
-playsong = Button(root, padx=10, pady=5, text='재생', command=play)
+playsong = Button(root, padx=10, pady=5, text='재생', command=plays)
 search = Button(root, padx=10, pady=5, text='검색', command=search)
 makepl.pack()
 del_pl.pack()
+playsong.pack()
 search.pack()
 
 root.mainloop()
