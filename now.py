@@ -130,6 +130,10 @@ def plays():
                         time.sleep(00.1)
                     
                     ll.remove(str(i))
+                    if ll == None:
+                        break
+                    else:
+                        continue
 
         else:
             c = Toplevel(a)
