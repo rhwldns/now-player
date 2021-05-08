@@ -6,8 +6,9 @@ import requests
 from youtubesearchpython import VideosSearch
 import youtube_dl
 from audioplayer import AudioPlayer
-from pydub import AudioSegment
-from pydub.playback import play
+from pygame import mixer
+import time
+import pygame
 
 # -*- coding:utf-8 -*-
 
@@ -26,6 +27,7 @@ root.resizable(False, False)
 
 
 def make_pl():
+
     a = Toplevel(root)
     a.title('Set Playlist Name')
     a.geometry('320x100')
@@ -109,15 +111,17 @@ def plays():
 
             # 파일 읽고 그거 다운 후 재생
 
-            with open(f'playlist/{aa}.txt', 'r', encoding='utf-8') as f:
+            with open(f'playlist/{aa}.txt', 'r') as f:
                 r = f.readlines()
 
                 for i in r:
                     i = i.rstrip()
-                    os.chdir('C:/Users/cube4/Desktop/coding/Now_Player/music/')
-                    s = AudioSegment.from_file(f"{i}.mp4")
-                    play(s)
-                    os.chdir('C:/Users/cube4/Desktop/coding/Now_Player/')
+                    mixer.init()
+                    mixer.music.load(f'./music/{i}.mp3')
+                    mixer.music.play()
+
+                    while ( pygame.mixer.get_busy() ):  # wait for the sound to end
+                        time.sleep(00.1)
 
         else:
             c = Toplevel(a)
@@ -173,7 +177,13 @@ def search():
                     with open(f'playlist/{aa}.txt', 'a', encoding="UTF-8") as f:
                         f.write(f'{sn}\n')
 
-                    ydl_opts = {'outtmpl': f'music/{sn}.mp4'}
+                    ydl_opts = {'outtmpl': f'music/{sn}.mp3', 
+                    'postprocessors': [{
+                        'key': 'FFmpegExtractAudio',
+                        'preferredcodec': 'mp3',
+                        'preferredquality': '192',
+                    }],}
+
                     with youtube_dl.YoutubeDL(ydl_opts) as ydl:
                         ydl.download([url])
 
