@@ -113,15 +113,23 @@ def plays():
 
             with open(f'playlist/{aa}.txt', 'r') as f:
                 r = f.readlines()
+                ll = []
 
                 for i in r:
-                    i = i.rstrip()
+                    iii = i.rstrip()
+                    ll.append(iii)
+                print(ll)
+                
+                for i in ll:
                     mixer.init()
                     mixer.music.load(f'./music/{i}.mp3')
+                    
                     mixer.music.play()
 
                     while ( pygame.mixer.get_busy() ):  # wait for the sound to end
                         time.sleep(00.1)
+                    
+                    ll.remove(str(i))
 
         else:
             c = Toplevel(a)
