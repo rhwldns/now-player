@@ -177,7 +177,7 @@ def search():
                     with open(f'playlist/{aa}.txt', 'a', encoding="UTF-8") as f:
                         f.write(f'{sn}\n')
 
-                    ydl_opts = {'outtmpl': f'music/{sn}.mp3', 
+                    ydl_opts = {'outtmpl': f'music/{sn}', 
                     'postprocessors': [{
                         'key': 'FFmpegExtractAudio',
                         'preferredcodec': 'mp3',
