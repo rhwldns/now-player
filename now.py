@@ -18,7 +18,7 @@ import pygame
 # pl = 플레이리스트 (playlist)
 
 ##########################################################
-
+mixer.init()
 root = Tk()
 root.title("Now Music Player")
 root.geometry("640x480")
@@ -109,8 +109,6 @@ def plays():
         aa = e.get()
         if os.path.isfile(f'playlist/{aa}.txt'):
 
-            # 파일 읽고 그거 다운 후 재생
-
             with open(f'playlist/{aa}.txt', 'r') as f:
                 r = f.readlines()
                 ll = []
@@ -118,22 +116,20 @@ def plays():
                 for i in r:
                     iii = i.rstrip()
                     ll.append(iii)
-                print(ll)
                 
                 for i in ll:
-                    mixer.init()
                     mixer.music.load(f'./music/{i}.mp3')
                     
                     mixer.music.play()
-
-                    while ( pygame.mixer.get_busy() ):  # wait for the sound to end
-                        time.sleep(00.1)
                     
+                    while pygame.mixer.music.get_busy():
+                        time.sleep(1)
+
                     ll.remove(str(i))
-                    if ll == None:
+                    if len(ll) == 0:
                         break
                     else:
-                        continue
+                        pass
 
         else:
             c = Toplevel(a)
