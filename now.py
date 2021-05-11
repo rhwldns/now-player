@@ -125,7 +125,6 @@ def plays():
                     while pygame.mixer.music.get_busy():
                         time.sleep(1)
 
-                    ll.remove(str(i))
                     if len(ll) == 0:
                         break
                     else:
