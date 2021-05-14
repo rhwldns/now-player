@@ -314,5 +314,6 @@ del_pl.pack()
 playsong.pack()
 search.pack()
 deletesong.pack()
+shuffle_song.pack()
 
 root.mainloop()
