@@ -9,6 +9,7 @@ from audioplayer import AudioPlayer
 from pygame import mixer
 import time
 import pygame
+import random
 
 # -*- coding:utf-8 -*-
 
@@ -123,7 +124,7 @@ def plays():
                     mixer.music.play()
                     
                     while pygame.mixer.music.get_busy():
-                        time.sleep(1)
+                        time.sleep(0.01)
 
                     if len(ll) == 0:
                         break
@@ -139,6 +140,57 @@ def plays():
     b = Button(a, padx=10, pady=5, text='완료', command=playpl)
     b.pack()
 
+
+def shuffle_play():
+    a = Toplevel(root)
+    z = ''
+    for currentdir, dirs, files in os.walk("playlist/"):
+
+        for file in files:
+            file = file.replace('.txt', '')
+            z += file + '\n'
+    pl_list = Label(a, text=f'플레이리스트 목록입니다.\n셔플 재생할 플레이리스트 이름을 입력해주세요.\n\n{z}')
+    pl_list.pack()
+    e = Entry(a, width=10)
+    e.pack()
+
+    def playpl():
+
+        aa = e.get()
+        if os.path.isfile(f'playlist/{aa}.txt'):
+
+            with open(f'playlist/{aa}.txt', 'r') as f:
+                r = f.readlines()
+                ll = []
+
+                for i in r:
+                    iii = i.rstrip()
+                    ll.append(iii)
+
+                for i in range(5):
+                    random.shuffle(ll)
+
+                for i in ll:
+                    mixer.music.load(f'./music/{i}.mp3')
+
+                    mixer.music.play()
+
+                    while pygame.mixer.music.get_busy():
+                        time.sleep(0.01)
+
+                    if len(ll) == 0:
+                        break
+                    else:
+                        pass
+
+        else:
+            c = Toplevel(a)
+            c.geometry('250x70')
+            tt = Label(c, text='플레이리스트를 찾을 수 없습니다.\n오타가 있는지 확인해주세요.')
+            tt.pack()
+
+    b = Button(a, padx=10, pady=5, text='완료', command=playpl)
+    b.pack()
 
 def search():
     a = Toplevel(root)
@@ -256,6 +308,7 @@ del_pl = Button(root, padx=10, pady=5, text='플레이리스트 삭제', command
 playsong = Button(root, padx=10, pady=5, text='재생', command=plays)
 search = Button(root, padx=10, pady=5, text='곡 추가', command=search)
 deletesong = Button(root, padx=10, pady=5, text='곡 삭제', command=delsong)
+shuffle_song = Button(root, padx=10, pady=5, text='셔플 재생', command=shuffle_play)
 makepl.pack()
 del_pl.pack()
 playsong.pack()
